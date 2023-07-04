@@ -11,27 +11,21 @@ import java.util.List;
 
 public class EmployeeDBUtil {
 	
+	private static Connection con = null;
+	private static Statement stmt = null;
+	private static ResultSet rs = null;
+	
 	public static List<Employee> validate(String userName, String password){
 		
 		ArrayList<Employee> emp = new ArrayList<>();
 		
-		//crate database connection
-		String url = "jdbc:mysql://localhost:3306/employee";
-		String user = "root";
-		String pass = "yenuli";
-		
 		//validate
 		try {
-			Class.forName("com.mysql.jdbc.Driver");
-			
-			Connection con = DriverManager.getConnection(url, user, pass);
-			Statement stmt = con.createStatement();
-			
+			con = DBConnect.getConnection();
+			stmt = con.createStatement();
      		String sql = "select * from employee where username='" + userName + "' and password='" + password + "'";
-	//		String sql = "select * from employee where username='" + userName + "' and password='" + password + "'";
-
-			ResultSet rs = stmt.executeQuery(sql);
-			
+     		rs = stmt.executeQuery(sql);
+     		
 			if(rs.next()) {
 				int id = rs.getInt(1);
 				String name = rs.getString(2);
@@ -52,6 +46,36 @@ public class EmployeeDBUtil {
 		
 		return emp;
 		
+	}
+	
+	
+
+	//insert
+	public static boolean insertemployee(String name,String email,String phone,String username,String password,String gender) {
+		
+		boolean isSuccess = false;
+		
+				try {
+					con = DBConnect.getConnection();
+					stmt = con.createStatement();
+		     		
+		     		//String sql = "insert into employee values (0,'"+name+"','"+email+"','"+phone+"','"+username+"','"+password+"','"+gender+"',)";
+					 String sql = "INSERT INTO employee VALUES (0, '" + name + "', '" + email + "', '" + phone + "', '" + username + "', '" + password + "', '" + gender + "')";
+
+					int rs = stmt.executeUpdate(sql);
+					
+					if(rs > 0) {
+						isSuccess = true;	
+					} else {
+						isSuccess = false;
+					}
+				}
+				catch(Exception e){
+					e.printStackTrace();
+				}
+		
+		
+		return isSuccess;
 	}
 	
 }

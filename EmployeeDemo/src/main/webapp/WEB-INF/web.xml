@@ -15,6 +15,16 @@
 		<url-pattern>/login</url-pattern>
 	</servlet-mapping>
 	
+	
+	<servlet>
+		<servlet-name>employeeinsert</servlet-name>
+		<servlet-class>com.employee.EmployeeInsert</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>employeeinsert</servlet-name>
+		<url-pattern>/insert</url-pattern>
+	</servlet-mapping>
+	
     
 	
 	
